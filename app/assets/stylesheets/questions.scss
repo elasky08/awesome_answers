@@ -1,0 +1,14 @@
+// Place all the styles related to the questions controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.field_with_errors input, .field_with_errors textarea {
+  border-color: red;
+}
+
+.flash-message {
+  width: 100%;
+  text-align: center;
+  background-color: #D5D5D5;
+  border-radius: 10px;
+}

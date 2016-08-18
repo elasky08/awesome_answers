@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AwesomeAnswers</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= link_to("Home", root_path) %>
+    <!-- <a href="<%= root_path %>">Home</a> -->
+    |
+    <%= link_to "About", about_me_path%>
+    <!-- <a href="/about">About</a> -->
+    |
+    <%= link_to "Contact US", new_contact_path %>
+    |
+    <%= link_to "New Question", new_question_path %>
+    |
+    <%= link_to "Questions", questions_path %>
+    <hr>
+    <div class="flash-message">
+      <%= flash[:notice] || flash[:alert] %>
+    </div>
+
+
+    <%= yield %>
+  </body>
+</html>

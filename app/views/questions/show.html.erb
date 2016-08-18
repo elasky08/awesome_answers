@@ -1,0 +1,48 @@
+<h1><%= @q.title %></h1>
+<p>
+  <%= @q.body %>
+</p>
+
+<%= link_to "Edit", edit_question_path(@q) %>
+<%= button_to "Delete", question_path(@q),
+                      method: :delete,
+                      data: {confirm: "Are you sure?"}
+                      %>
+<hr>
+<h2>Create an Answer</h2>
+
+<%# this explains the working block of code below
+  form_for [@question, @answer]
+  this will generate a form for @answer. For example if you have a field `body`
+  the `name` attribute will actually be: answer[body]
+
+  the @question part is only used to generate the action url for the form.
+
+  If @answer is not persisted the url will be: question_answers_path(@question)
+  If @answer is persisted the url will:        question_answer_path(@question, @answer)
+ %>
+
+<!-- <%# form_for @answer, url: question_answers_path(@question) do |f|%> you can use this but for rails convention we use below form_for codes-->
+<%= @answer.errors.full_messages.join(", ")  %>
+<%= form_for [@q, @answer] do |f|%>
+<div>
+  <%= f.label :body %>
+  <%= f.text_area :body %>
+</div>
+  <%= f.submit%>
+<% end %>
+
+<h2>Answers</h2>
+<% @q.answers.each do |ans| %>
+<%= ans.body %>
+<%= link_to "delete", question_answer_path(@q, ans),
+                      method: :delete,
+                      data: {confirm: "Are you sure?"}
+                      %>
+<hr>
+<% end %>
+
+
+
+                      <!-- data: {confirm: "Are you sure?"},
+                      class="confirm-style"%> to add style-->
