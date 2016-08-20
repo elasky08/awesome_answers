@@ -6,6 +6,8 @@ class Question < ApplicationRecord
   # :answers refers to the model answer.rb
   has_many :answers, dependent: :destroy
 
+  belongs_to :user
+
   # validates :title, uniqueness: {scope: [:body]}
   validates :title, presence: true, uniqueness: {message: "must be unique!"}
   validates :body, presence: true, length: {minimum: 5}

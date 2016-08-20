@@ -13,7 +13,10 @@ Rails.application.routes.draw do
 
   post "/contact" => "contact#create", as: :contact
 
-
+  resources :users, only: [:new, :create]
+  resources :sessions, only: [:new, :create, :destroy] do
+    delete :destroy, on: :collection
+  end
   resources :questions do
     # # collection is used when we don't need to spcify a particular question but we expect a collection of question. Exmaples: index / create
     # post :search, on: :collection

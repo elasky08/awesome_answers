@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   # before_action takes in an argument for a method (ideally private) that gets executed just before the action and it's still within the request/response
   before_action :find_question, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:create, :edit, :destroy, :update, :new]
   # before_action :find_question, except: [:show, :edit, :update, :destroy]
   # GET /question/new
   QUESTIONS_PER_PAGE = 10
@@ -21,7 +22,7 @@ class QuestionsController < ApplicationController
     # question_params = params.require(:question).permit([:title, :body]) => now it's in a method
     # Question.create question_params
     @question       = Question.new question_params
-
+    @question.user  = current_user
     if @question.save
       # render json: params
       # render :show
