@@ -16,6 +16,7 @@ class Ability
     can :manage, Question do |question|
       user == question.user
     end
+  end
 
     # this enforces that the logged in user must wither be the owner of the answer or the owner for the question that the answer references.
     # can :manage, Answer do |answer|
@@ -48,5 +49,4 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
-  end
 end
