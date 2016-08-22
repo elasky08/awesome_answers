@@ -15,9 +15,17 @@ class User < ApplicationRecord
                     uniqueness: {case_sensitive: false},
                     format: VALID_EMAIL_REGEX
 
+  after_initialize :set_defaults
+
   has_many :questions, dependent: :nullify
   def full_name
     "#{first_name} #{last_name}".squeeze(" ").strip.titleize
+  end
+
+  private
+
+  def set_defaults
+    self.admin ||= false
   end
 
 end

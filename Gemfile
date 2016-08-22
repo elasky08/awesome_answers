@@ -18,6 +18,7 @@ gem 'coffee-rails', '~> 4.2'
 
 gem 'cowsay'
 gem 'kaminari'
+gem 'cancancan'
 
 
 # Use jquery as the JavaScript library
