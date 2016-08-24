@@ -82,8 +82,8 @@ class QuestionsController < ApplicationController
     params.require(:question).permit([:title, :body])
   end
 
-  def authorize
-    redirect_to root_path, alert: "access defined" unless @question.user == current_user
+  def authorize!
+    redirect_to root_path, alert: "access denied" unless @question.user == current_user
   end
 
 end

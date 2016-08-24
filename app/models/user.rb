@@ -17,6 +17,8 @@ class User < ApplicationRecord
 
   after_initialize :set_defaults
 
+  has_many :likes, dependent: :destroy
+  has_many :liked_questions, through: :likes, source: :question
   has_many :questions, dependent: :nullify
   def full_name
     "#{first_name} #{last_name}".squeeze(" ").strip.titleize

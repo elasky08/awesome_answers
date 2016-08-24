@@ -3,12 +3,20 @@
   <%= @q.body %>
 </p>
 <%# if user_signed_in? && current_user == @question.user %>
-<% if can? :manage, @question %>
-<%= link_to "Edit", edit_question_path(@q) %>
-<%= button_to "Delete", question_path(@q),
+<% if can?(:manage, @question) %>
+  <%= link_to "Edit", edit_question_path(@q) %>
+  <%= button_to "Delete", question_path(@q),
                       method: :delete,
                       data: {confirm: "Are you sure?"}%>
 <% end %>
+
+<% user_like = @question.like_for current_user %>
+<% if user_like.present? %>
+  <%= link_to "Un-Like", question_like_path(@question, user_like), method: :delete %>
+<% else %>
+  <%= link_to "Like", question_likes_path(@question), method: :post %>
+<% end %>
+(<%= pluralize ""@question.likes.count %>)
 <hr>
 <h2>Create an Answer</h2>
 
@@ -32,6 +40,7 @@
 </div>
   <%= f.submit%>
 <% end %>
+
 
 <h2>Answers</h2>
 <% @q.answers.each do |ans| %>

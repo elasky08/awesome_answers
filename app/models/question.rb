@@ -8,6 +8,9 @@ class Question < ApplicationRecord
 
   belongs_to :user
 
+  has_many :likes, dependent: :destroy
+  has_many :users, through: :likes
+
   # validates :title, uniqueness: {scope: [:body]}
   validates :title, presence: true, uniqueness: {message: "must be unique!"}
   validates :body, presence: true, length: {minimum: 5}
@@ -36,7 +39,10 @@ class Question < ApplicationRecord
 
   before_validation :capitalize_title
 
-  private
+  def like_for(user)
+    likes.find_by_user_id user
+  end
+
 
   def titleize_title
     title.titleize
@@ -51,6 +57,8 @@ class Question < ApplicationRecord
     where(["title ILIKE ? OR body ILIKe ?", "%#{keyword}%", "%#{keyword}%"])
   end
 
+  private
+
   def capitalize_title
     self.title.capitalize! if title
   end
@@ -64,9 +72,6 @@ class Question < ApplicationRecord
   # calling itself when calling view_count on the console?
   def set_defaults
     self.view_count ||= 0
-  end
-
-  def index
   end
 
 end
