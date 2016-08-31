@@ -11,6 +11,18 @@
  * It is generally better to create a new file per style scope.
  *
  *= require questions
+ *= require chosen
  *= require_tree .
  *= require_self
  */
+
+ @import 'bootstrap-sprockets';
+ @import 'bootstrap';
+
+ @import 'font-awesome-sprockets';
+ @import 'font-awesome';
+
+ body {
+   padding-top: 20px;
+   padding-bottom: 20px;
+ }

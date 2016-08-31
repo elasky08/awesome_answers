@@ -18,6 +18,7 @@ class AnswersController < ApplicationController
 
     # we same the answer to the database
     if @answer.save
+      AnswerMailer.notify_question_owner(@answer).deliver_later
       # we redirect to the question show page
       redirect_to question_path(@q), notice: "Answer created!"
     else
@@ -33,4 +34,9 @@ class AnswersController < ApplicationController
     # render json: params
     redirect_to question_path(q), notice: "Answer deleted"
   end
+
+  def user_vote
+    @user_vote ||= @question.vote_for current_user
+  end
+  helper_method :user_vote
 end

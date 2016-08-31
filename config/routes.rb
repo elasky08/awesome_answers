@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   # get({"/home" => "welcome#index"})
   # this is called DSL: domain specific language. It's just Ruby written in a special
   # way for a special purpose (in this case for defining routes)
+  match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
+
   get "/home" => "welcome#index"
 
   #we can use 'as:' option to set a path/url helper
@@ -29,6 +31,7 @@ Rails.application.routes.draw do
 
     resources :answers, only: [:create, :destroy]
     resources :likes, only: [:create, :destroy]
+    resources :votes, only: [:create, :update, :destroy]
   end
 
   # get "/questions/new" => "questions#new", as: :new_question

@@ -10,6 +10,10 @@ class Question < ApplicationRecord
 
   has_many :likes, dependent: :destroy
   has_many :users, through: :likes
+  has_many :votes, dependent: :destroy
+  has_many :voting_users, through: :votes, source: :user
+  has_many :taggings, dependent: :destroy
+  has_many :tags, through: :taggings
 
   # validates :title, uniqueness: {scope: [:body]}
   validates :title, presence: true, uniqueness: {message: "must be unique!"}
@@ -55,6 +59,14 @@ class Question < ApplicationRecord
 
   def self.search(keyword)
     where(["title ILIKE ? OR body ILIKe ?", "%#{keyword}%", "%#{keyword}%"])
+  end
+
+  def vote_for(user)
+    votes.find_by_user_id user
+  end
+
+  def vote_value
+    votes.where(is_up: true).count - votes.where(is_up: false).count
   end
 
   private
