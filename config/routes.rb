@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     #
     # # This is when we want to have nested routes for our resources. Example is answers for questions.
     # post :search
-
+    post "/questions/search" => "questions#seacrh"
     resources :answers, only: [:create, :destroy]
     resources :likes, only: [:create, :destroy]
     resources :votes, only: [:create, :update, :destroy]

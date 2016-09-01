@@ -42,11 +42,16 @@ class QuestionsController < ApplicationController
 
   def show
     @q = Question.find params[:id]
+    @q2 = Question.search(params[:search_term])
+    @qs = @q2.order(created_at: :desc).
+              page(params[:page]).
+              per(QUESTIONS_PER_PAGE)
     @answer = Answer.new
   end
 
   def index
-    @questions = Question.order(created_at: :desc).
+    @questions2 = Question.search(params[:search_term])
+    @questions = @questions2.order(created_at: :desc).
                           page(params[:page]).
                           per(QUESTIONS_PER_PAGE)
   end
@@ -68,6 +73,16 @@ class QuestionsController < ApplicationController
     # question = Question.find params[:id]
     @question.destroy
     redirect_to questions_path
+  end
+
+  def search
+    if params[:search_term]
+      query = "%#{params[:search_term]}%"
+      @questions = Question.where("title ILIKE :search_term OR body ILIKE :search_term", {search_term: query})
+    else
+      @questions = Question.all
+    end
+      render :index
   end
 
   private

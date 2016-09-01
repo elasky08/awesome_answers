@@ -22,8 +22,12 @@
 }
 
 .jumbotron {
-  .white-bg {
-    background-color: #ffffff !important;
-    border: 1px solid black !important;
+  &.white-bg {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
   }
+}
+
+.add-margin-top {
+  margin-top: 15px;
 }

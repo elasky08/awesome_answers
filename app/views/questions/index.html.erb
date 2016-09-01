@@ -4,5 +4,6 @@
   <%= link_to ques.title, question_path(ques) %>
   <hr>
 <% end %>
-
-<%= paginate @questions %>
+<div class="digg_pagination">
+  <%= paginate @questions %>
+</div>

@@ -35,6 +35,15 @@
                   <li><%= link_to "Sign up", new_user_path %></li>
                   <li><%= link_to "Sign in", new_session_path %></li>
                   <% end %>
+                <li>
+                  <div class="navbar-form navbar-right">
+                    <%= form_tag questions_path, :method => 'get' do %>
+                    <%= text_field_tag :search_term, params[:search_term], class: 'form-control' %>
+                    <%= submit_tag "Search", class: 'btn btn-default'%>
+                    <!-- <%# submit_tag "Search", :name => nil %> why is there :name => nil ? I don't know-->
+                    <% end %>
+                  </div>
+                </li>
                 </ul>
             </div>
           </div>
