@@ -44,7 +44,7 @@ class Question < ApplicationRecord
   before_validation :capitalize_title
 
   def like_for(user)
-    likes.find_by_user_id user
+    likes.find_by_user_id(user)
   end
 
 

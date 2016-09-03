@@ -17,9 +17,13 @@ class Ability
       user == question.user
     end
 
-    cannot :like, Question do |question|
-      user == question.user
+    can :like, Question do |question|
+      user != question.user
     end
+    
+    # cannot :like, Question do |question|
+    #   user == question.user
+    # end
 
     can :destroy, Like do |like|
       user == like.user

@@ -9,6 +9,8 @@ class AnswersController < ApplicationController
     # We associate the answer we defined above with the question we found above as well. This is because we need to associate the created answer with the question
     @answer.question = @q
 
+    respond_to do |format|
+
     # we save the answer to the database
     # answer.save
     # render json: params
@@ -17,22 +19,32 @@ class AnswersController < ApplicationController
     # redirect_to question_path(question), notice: "Answer created!"
 
     # we same the answer to the database
-    if @answer.save
-      AnswerMailer.notify_question_owner(@answer).deliver_later
-      # we redirect to the question show page
-      redirect_to question_path(@q), notice: "Answer created!"
-    else
-      flash[:alert] = "Please fix errors below"
-      render "/questions/show"
+      if @answer.save
+        AnswerMailer.notify_question_owner(@answer).deliver_later
+        # we redirect to the question show page
+        format.html {redirect_to question_path(@q), notice: "Answer created!"}
+        format.js {render :create_success} # point to views/answers/create_success.html.erb
+      else
+        flash[:alert] = "Please fix errors below"
+        format.html {render "/questions/show"}
+        format.js {render :create_failure}
+      end
+
     end
   end
 
   def destroy
     q = Question.find params[:question_id]
-    a = Answer.find params[:id]
-    a.destroy
-    # render json: params
-    redirect_to question_path(q), notice: "Answer deleted"
+    # a = Answer.find params[:id]
+    # a.destroy
+    @answer = Answer.find params[:id]
+    @answer.destroy
+
+    respond_to do |format|
+      # render json: params
+      format.html {redirect_to question_path(q), notice: "Answer deleted"}
+      format.js {render} # if you just say 'render' this will look for app/views/answers/destroy.js.erb
+    end
   end
 
   def user_vote

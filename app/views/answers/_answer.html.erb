@@ -1,0 +1,10 @@
+<div id="<%= dom_id(answer) %>">
+<%= answer.body %>
+<%= link_to "delete", question_answer_path(@q, answer),
+                    method: :delete,
+                    remote: true,
+                    data: {confirm: "Are you sure?"},
+                    class: "btn btn-primary btn-xs"
+                    %>
+<hr>
+</div>
