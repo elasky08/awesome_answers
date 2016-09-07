@@ -1,9 +1,23 @@
-<h1>All Questions</h1>
+<div class="container question">
+  <h1>All Questions</h1>
+<div class="question-container">
+  <ul>
+    <% @questions.each do |ques| %>
+    <li>
 
-<% @questions.each do |ques| %>
-  <%= link_to ques.title, question_path(ques) %>
-  <hr>
+        <%# image_tag "roderick-icon.jpg", class: "clip-circle" %>
+
+        <%# link_to ques.title, question_path(ques) %>
+        <h4><%= link_to ques.title, question_path(ques) %></h4>
+        <p><%= ques.body %></p>
+    </li>
 <% end %>
-<div class="digg_pagination">
+</ul>
+</div>
+<div class="digg_pagination pagination">
+  <nav aria-label="Page navigation">
+
   <%= paginate @questions %>
+  </nav>
+</div>
 </div>

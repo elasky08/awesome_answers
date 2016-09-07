@@ -4,6 +4,8 @@ class Vote < ApplicationRecord
 
   validates :user_id, uniqueness: { scope: :question_id }
 
+  # scope :up, lambda { where(is_up: true) }
+  # scope :up, -> { where(is_up: true) }
   def self.up
     where(is_up: true)
   end

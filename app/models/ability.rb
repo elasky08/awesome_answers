@@ -7,11 +7,11 @@ class Ability
 
     user ||= User.new
 
-      if user.admin?
-        can :manage, :all
-      else
-        can :read, :all
-      end
+    if user.admin?
+      can :manage, :all
+    else
+      can :read, :all
+    end
 
     can :manage, Question do |question|
       user == question.user
@@ -20,10 +20,10 @@ class Ability
     can :like, Question do |question|
       user != question.user
     end
-    
-    # cannot :like, Question do |question|
-    #   user == question.user
-    # end
+
+    cannot :like, Question do |question|
+      user == question.user
+    end
 
     can :destroy, Like do |like|
       user == like.user

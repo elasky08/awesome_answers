@@ -1,4 +1,4 @@
-<%= @question.errors.full_messages.join(", ") %>
+<% @question.errors.full_messages.join(", ") %>
 <%= form_for @question do |f| %>
   <div class="form-group">
     <%= f.label :title %>

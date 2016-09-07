@@ -5,3 +5,9 @@
 .homepage-image {
   width: 40%;
 }
+
+.jumbotron {
+  &.welcome {
+    background-color: #ff5959;
+  }
+}

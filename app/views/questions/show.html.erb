@@ -1,81 +1,63 @@
-<h2><%= @q.title %></h2>
-<p>
-  <%= @q.body %>
-</p>
-<p>
-  <%= @question.tags.map {|t| t.name}.join(", ") %>
-  <%# @question.tags.each do |t| %>
-  <%# t.name %>
-  <%# end %>
-</p>
-<%# if user_signed_in? && current_user == @question.user %>
-<hr>
-<form class="form-inline">
-<% if can?(:manage, @question) %>
-  <%= link_to "Edit", edit_question_path(@q), class: "btn btn-primary btn-xs" %>
-  <%= button_to "Delete", question_path(@q),
-                      method: :delete,
-                      data: {confirm: "Are you sure?"}, class: "btn btn-primary btn-xs"%>
-<% end %>
+<div class="container">
+    <h2><%= @q.title %></h2>
+    <p>
+        <%= @q.body %>
+    </p>
+    <p>
+        <%= @question.tags.map {|t| t.name}.join(", ") %>
+        <%# @question.tags.each do |t| %>
+        <%# t.name %>
+        <%# end %>
+    </p>
+    <%# if user_signed_in? && current_user == @question.user %>
+    <hr>
+    <form class="form-inline">
+        <% if can?(:like, @question) %>
+          <%= link_to "Edit", edit_question_path(@q), class: "btn btn-primary btn-xs" %>
+          <%= button_to "Delete", question_path(@q),
+                        method: :delete,
+                        data: {confirm: "Are you sure?"}, class: "btn btn-primary btn-xs"%>
+        <% end %>
 
-<% if can? :like, @question %>
-  <% user_like = @question.like_for current_user %>
-  <% if user_like.present? %>
-    <%= link_to "Un-Like", question_like_path(@question, user_like), method: :delete %>
-  <% else %>
-    <%= link_to "Like", question_likes_path(@question), method: :post %>
-  <% end %>
-<% else %>
-  Like
-<% end %>
-(<%= pluralize @question.likes.count, "like" %>)
+        <% if can? :like, @question %>
+        <% user_like = @question.like_for current_user %>
+        <% if user_like.present? %>
+        <%= link_to "Un-Like", question_like_path(@question, user_like), method: :delete %>
+    <% else %>
+        <%= link_to "Like", question_likes_path(@question), method: :post %>
+        <% end %>
+    <% else %>
+        Like
+        <% end %>
+        (<%= pluralize @question.likes.count, "like" %>)
 
-<% user_vote = @question.vote_for current_user %>
+        <div id="vote">
+          <%= render "vote" %>
+        </div>
 
-<% if user_vote.nil? %>
-  <%= link_to "Vote Up", question_votes_path(@question, vote: {is_up: true}), method: :post%>
-  (<%= @question.vote_value %>)
-  <%= link_to "Vote Down", question_votes_path(@question, vote: {is_up: false}), method: :post %>
-<% elsif user_vote.is_up? %>
-  <%= link_to "Remove Vote Up", question_vote_path(@question, user_vote), method: :delete %>
-  (<%= @question.vote_value %>)
-  <%= link_to "Switch to Vote Down", question_vote_path(@question, user_vote, vote: {is_up: false}), method: :patch %>
-<% else %>
-  <%= link_to "Switch to Vote Up", question_vote_path(@question, user_vote, vote: {is_up: true}), method: :patch %>
-  (<%= @question.vote_value %>)
-  <%= link_to "Remove Vote Down", question_vote_path(@question, user_vote), method: :delete %>
-<% end %>
+        <%# this explains the working block of code below form_for [@question, @answer] this will generate a form for @answer. For example if you have a field `body` the `name` attribute will actually be: answer[body] the @question part is only used to
+        generate the action url for the form. If @answer is not persisted the url will be: question_answers_path(@question) If @answer is persisted the url will: question_answer_path(@question, @answer) %>
+        <hr>
+        <div class="jumbotron white-bg">
+            <h4>Create an Answer</h4>
+            <!-- <%# form_for @answer, url: question_answers_path(@question) do |f|%> you can use this but for rails convention we use below form_for codes-->
+            <%= @answer.errors.full_messages.join(", ")  %>
+            <%= form_for [@q, @answer], remote: true do |f|%>
+            <div>
+                <%= f.text_area :body, class: "form-control" %>
+            </div>
+            <div class="add-margin-top">
+                <%= f.submit "Submit", class: "btn btn-primary btn-xs"%>
+            </div>
+            <% end %>
+        </div>
 
-<%# this explains the working block of code below
-  form_for [@question, @answer]
-  this will generate a form for @answer. For example if you have a field `body`
-  the `name` attribute will actually be: answer[body]
-
-  the @question part is only used to generate the action url for the form.
-
-  If @answer is not persisted the url will be: question_answers_path(@question)
-  If @answer is persisted the url will:        question_answer_path(@question, @answer)
- %>
- <hr>
- <div class="jumbotron white-bg">
- <h4>Create an Answer</h4>
-<!-- <%# form_for @answer, url: question_answers_path(@question) do |f|%> you can use this but for rails convention we use below form_for codes-->
-<%= @answer.errors.full_messages.join(", ")  %>
-<%= form_for [@q, @answer], remote: true do |f|%>
-<div>
-  <%= f.text_area :body, class: "form-control" %>
-</div>
-<div class="add-margin-top">
-  <%= f.submit "Submit", class: "btn btn-primary btn-xs"%>
-</div>
-<% end %>
-</div>
-
-<div class="jumbotron white-bg">
-<h4>Answers</h4>
-<div id="answers">
-<% @q.answers.each do |ans| %>
-  <%= render "/answers/answer", answer: ans %>
-<% end %>
-</div>
-</div>
+        <div class="jumbotron white-bg">
+            <h4>Answers</h4>
+            <div id="answers">
+                <% @q.answers.each do |ans| %>
+                <%= render "/answers/answer", answer: ans %>
+                <% end %>
+            </div>
+        </div>
+    </div>
