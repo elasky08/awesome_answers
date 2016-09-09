@@ -20,13 +20,17 @@ gem 'cowsay'
 gem 'kaminari'
 gem 'cancancan'
 gem 'chosen-rails'
+gem 'rack-cors', :require => 'rack/cors'
 
 gem 'bootstrap-sass'
 gem 'bootstrap-glyphicons'
 gem 'slim'
 gem 'font-awesome-sass', '~> 4.2.0'
 gem 'font-awesome-rails'
-
+gem 'simple_form'
+gem 'friendly_id'
+gem 'carrierwave', '>= 1.0.0.beta', '< 2.0'
+gem 'mini_magick'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

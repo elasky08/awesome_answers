@@ -1,3 +1,4 @@
+<div class="container question">
 <h1>New Question</h1>
 
 <%# form_for is a rails built-in form helper which generates a form that integrates
@@ -30,3 +31,4 @@ Case 1: if @question is not persisted (not yet saved to the databse), then form_
 If you want to render the partial from another folder you can use the full path (within the views folder) such as: render "/questions/form"  partials have access to the instance variables available in the templates. So In this case @question will be available in _form.html.erb
 If you want to pass a local variable to the partial then you can do: = render "form", abc: "Hello"   Then you will have a variable named 'abc' available in '_form' with value "Hello"%>
 <%= render "form" %>
+</div>

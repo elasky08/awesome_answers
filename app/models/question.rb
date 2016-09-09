@@ -19,6 +19,13 @@ class Question < ApplicationRecord
   validates :title, presence: true, uniqueness: {message: "must be unique!"}
   validates :body, presence: true, length: {minimum: 5}
 
+  extend FriendlyId
+  friendly_id :title, use: [:slugged, :history]
+
+  # :image refers to the field in the databse that stores the file name
+  #  ImageUploader refers to the Uploader class we generated with carrierwave
+  mount_uploader :image, ImageUploader
+
   #validates (:title, {presence: true}) => more verbose way of writing
   validates :title, presence: true, uniqueness: true
   # validates :title, presence: true, uniqueness: {message: "must be unique!"}
@@ -52,6 +59,10 @@ class Question < ApplicationRecord
     title.titleize
   end
 
+  # def to_param
+  #   "#{id}-#{title}".parameterize
+  # end
+
   # scope :recent_ten, lambda { order(created_at: :desc).limit(10)} it is the same thing as below code, this is just short-form
   def self.recent_ten
     order(created_at: :desc).limit(10)
@@ -70,6 +81,7 @@ class Question < ApplicationRecord
   end
 
   private
+
 
   def capitalize_title
     self.title.capitalize! if title

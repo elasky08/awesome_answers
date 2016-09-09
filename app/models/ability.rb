@@ -25,6 +25,8 @@ class Ability
       user == question.user
     end
 
+
+
     can :destroy, Like do |like|
       user == like.user
     end

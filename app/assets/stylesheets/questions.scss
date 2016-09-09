@@ -93,8 +93,8 @@
     line-height: 38px;
     text-decoration: none;
     background-color: white;
-    border: 1px solid #DDD;
-    // border-left-width: 1px;
+    border: 1px solid #ddd;
+    border-right-width: 0px;
     color: #ff5959;
 }
 
@@ -106,12 +106,20 @@
   text-decoration: none;
 }
 
+// .pagination span.current {
+//   border-right-width: 1px;
+// }
+
+.pagination span.current:last-child {
+  border-right-width: 1px;
+}
+
 .pagination {
-    // border: 1px solid #ddd;
+
     // .first{
-    //     padding : 0;
-    //     float: none;
-    //     border: none;
+    //     // padding : 0;
+    //     // float: none;
+    //
     // }
     // .prev {
     //     padding : 0;
@@ -128,11 +136,12 @@
     //     float: none;
     //     border: none;
     // }
-    .last{
-        padding : 0;
-        float: none;
+    .last {
+      a {
+        // padding : 0;
+        // float: none;
         // border: none;
-        border-radius: 0px 5px 5px 0px;
         border-right-width: 1px;
+      }
     }
 }

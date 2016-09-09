@@ -10,6 +10,7 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
+ *= require bootstrap_and_overrides
  *= require questions
  *= require chosen
  *= require_tree .
@@ -69,6 +70,12 @@
 
  .navbar {
    margin-bottom: 0;
+ }
+
+ #copyright p {
+   float: right;
+   color: #fff;
+   margin: 25px 15px;
  }
 
  .nav > li > a {

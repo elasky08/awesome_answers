@@ -1,5 +1,6 @@
 <div class="container">
     <h2><%= @q.title %></h2>
+    <%= image_tag @q.image.url(:medium) %>
     <p>
         <%= @q.body %>
     </p>
@@ -12,7 +13,7 @@
     <%# if user_signed_in? && current_user == @question.user %>
     <hr>
     <form class="form-inline">
-        <% if can?(:like, @question) %>
+        <% if can?(:manage, @question) %>
           <%= link_to "Edit", edit_question_path(@q), class: "btn btn-primary btn-xs" %>
           <%= button_to "Delete", question_path(@q),
                         method: :delete,
@@ -20,9 +21,9 @@
         <% end %>
 
         <% if can? :like, @question %>
-        <% user_like = @question.like_for current_user %>
+          <% user_like = @question.like_for current_user %>
         <% if user_like.present? %>
-        <%= link_to "Un-Like", question_like_path(@question, user_like), method: :delete %>
+          <%= link_to "Un-Like", question_like_path(@question, user_like), method: :delete %>
     <% else %>
         <%= link_to "Like", question_likes_path(@question), method: :post %>
         <% end %>

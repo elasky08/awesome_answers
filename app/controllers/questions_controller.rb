@@ -41,7 +41,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @q = Question.find params[:id]
+    @q = Question.friendly.find params[:id]
     @q2 = Question.search(params[:search_term])
     @qs = @q2.order(created_at: :desc).
               page(params[:page]).
@@ -54,6 +54,11 @@ class QuestionsController < ApplicationController
     @questions = @questions2.order(created_at: :desc).
                           page(params[:page]).
                           per(QUESTIONS_PER_PAGE)
+
+    respond_to do |format|
+      format.html {render}
+      format.json {render json: @questions}
+    end
   end
 
   def edit
@@ -61,6 +66,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
+    @question.slug = nil
     # @question = Question.find params[:id]
     if @question.update question_params
       redirect_to question_path(@question)
@@ -88,13 +94,13 @@ class QuestionsController < ApplicationController
   private
 
   def find_question
-    @question = Question.find params[:id]
+    @question = Question.friendly.find params[:id]
   end
 
   def question_params
     # we're using the `strong parameters` feature of Rails here to only allow
     # mass-assigning the attributes that we want to allow the user to set
-    params.require(:question).permit([:title, :body, {tag_ids: []}])
+    params.require(:question).permit([:title, :body, {tag_ids: []}, :image])
   end
 
   def authorize!
