@@ -3,15 +3,13 @@
 <div class="question-container">
   <ul>
     <% @questions.each do |ques| %>
-    <li>
-
-        <%# image_tag "roderick-icon.jpg", class: "clip-circle" %>
-
-        <%# link_to ques.title, question_path(ques) %>
-        <h4><%= link_to ques.title, question_path(ques) %></h4>
-        <p><%= ques.body %></p>
-    </li>
-<% end %>
+       <%= link_to question_path(ques) do %>
+        <li>
+            <h4><%= ques.title %></h4>
+            <p><%= ques.body %></p>
+        </li>
+      <% end %>
+    <% end %>
 </ul>
 </div>
 <div class="digg_pagination pagination">

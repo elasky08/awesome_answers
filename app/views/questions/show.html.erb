@@ -46,6 +46,7 @@
             <!-- <%# form_for @answer, url: question_answers_path(@question) do |f|%> you can use this but for rails convention we use below form_for codes-->
             <%= @answer.errors.full_messages.join(", ")  %>
             <%= form_for [@q, @answer], remote: true do |f|%>
+            <%#= form_for(:answers, url: question_answers_path(@q, @answer)) do |f| %>
             <div>
                 <%= f.text_area :body, class: "form-control" %>
             </div>
