@@ -15,7 +15,7 @@ class LikesController < ApplicationController
   end
 
   def destroy
-    question = Question.find params[:question_id]
+    question = Question.friendly.find params[:question_id]
     like     = Like.find params[:id]
     if can? :destroy, like
       like.destroy

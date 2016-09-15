@@ -19,6 +19,20 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy] do
     delete :destroy, on: :collection
   end
+
+  # get "api/v1/questions" => "api/v1/questions#index"
+    # the line of code above is the same as the block of code below.
+    # you can use 'scope' instead of 'namespace' but scope will use the old controller and the old path but uses a new url, namespace will use a new path and new controller and new url.
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :questions, only: [:index, :show, :create]
+    end
+  end
+
+  # scope :android do
+  #   resources :questions, controller: "api/v1/questions"
+  # end
+
   resources :questions do
     # # collection is used when we don't need to spcify a particular question but we expect a collection of question. Exmaples: index / create
     # post :search, on: :collection
@@ -42,5 +56,8 @@ Rails.application.routes.draw do
   # patch "/questions/:id" => "questions#update" #we don't have to put as: :question because for question#show it already assigned as: :question
   # delete "/questions/:id" => "question#destroy"
   #this is basically defining: get "/"
+  get "/auth/twitter", as: :sign_in_with_twitter
+  get "/auth/twitter/callback" => 'callbacks#twitter'
+
   root "welcome#index"
 end

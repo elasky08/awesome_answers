@@ -22,9 +22,23 @@ class QuestionsController < ApplicationController
     # question_params = params[:question] #{"title":"asdasd","body":"ddddd"}
     # question_params = params.require(:question).permit([:title, :body]) => now it's in a method
     # Question.create question_params
+    question_params = params.require(:question).permit([:title, :body, { tag_ids: [] },:image, :tweet_it])
     @question       = Question.new question_params
     @question.user  = current_user
     if @question.save
+      if @question.tweet_it
+          client = Twitter::REST::Client.new do |config|
+            config.consumer_key        = ENV["TWITTER_API_KEY"]
+            config.consumer_secret     = ENV["TWITTER_API_SECRET"]
+            config.access_token        = current_user.twitter_token
+            config.access_token_secret = current_user.twitter_secret
+          end
+          client.update "#{@question.title} #{question_url(@question)}"
+      end
+      # render json: {success: true}
+      redirect_to question_path(@question), notice: "Question created successfully."
+    elsif
+      render json: {success: false, errors: @question.errors.full_messages}
       # render json: params
       # render :show
       # redirect_to question_path({id: @question.id}) => long form of below code

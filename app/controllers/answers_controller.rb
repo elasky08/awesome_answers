@@ -4,7 +4,7 @@ class AnswersController < ApplicationController
     @answer = Answer.new params.require(:answer).permit(:body)
 
     # We fetch the question by its id which came from the URL. In the form in the question/show.html.erb we used a url: question_answers_path(@question) this path includes a variable :question_id which comes as part of the params
-    @q = Question.find params[:question_id]
+    @q = Question.friendly.find params[:question_id]
 
     # We associate the answer we defined above with the question we found above as well. This is because we need to associate the created answer with the question
     @answer.question = @q
@@ -34,7 +34,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    q = Question.find params[:question_id]
+    q = Question.friendly.find params[:question_id]
     # a = Answer.find params[:id]
     # a.destroy
     @answer = Answer.find params[:id]

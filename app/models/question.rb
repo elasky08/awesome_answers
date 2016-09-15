@@ -4,6 +4,7 @@ class Question < ApplicationRecord
   # destroy: will delete associated answers before deleting a question
   # nullify: will make question_id 'null' for associated answers before deleting
   # :answers refers to the model answer.rb
+  attr_accessor :tweet_it
   has_many :answers, dependent: :destroy
 
   belongs_to :user
@@ -78,6 +79,16 @@ class Question < ApplicationRecord
 
   def vote_value
     votes.where(is_up: true).count - votes.where(is_up: false).count
+  end
+
+  delegate :first_name, :last_name, to: :user, prefix: true, allow_nil: true
+
+  def user_first_name
+    user.first_name if user
+  end
+
+  def user_last_name
+    user.last_name if user
   end
 
   private
